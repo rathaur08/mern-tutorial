@@ -1,15 +1,14 @@
-const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 const express = require('express');
 const app = express();
 
-// connectio creating and creating a new MongoDB Cloud
-const DB = 'mongodb+srv://sunnyrathaur:sunnyrathaur@cluster0.23gv3yf.mongodb.net/mernstack?retryWrites=true&w=majority';
-mongoose.set("strictQuery", false);
-mongoose.connect(DB,{
-    useNewUrlParser:true, useUnifiedTopology:true, useUnifiedTopology:true
-}).then(()=>{
-console.log("Connection Successful..");
-}).catch((err) => console.log("No Connection"))
+//  ADD .env file path
+dotenv.config({path: './config.env'});
+require("./db/conn");
+
+// PORT Path
+const PORT = process.env.PORT;
+
 
 // Middelware 
 const middleware = (req,res, next) => {
@@ -39,12 +38,12 @@ app.get('/signup', (req, res) => {
 });
 
 
-app.listen(8000, () => {
-    console.log(`Server is running at Port 8000`)
+app.listen(PORT, () => {
+    console.log(`Server is running at Port http://localhost:${PORT}`)
 })
 
 // passwords -------------->
 // sunnyrathaur ,mernstack
-// mongoDB connectin key ---------->
+// mongoDB connection key ---------->
 // mongodb+srv://sunnyrathaur:sunnyrathaur@cluster0.23gv3yf.mongodb.net/?retryWrites=true&w=majority
 
