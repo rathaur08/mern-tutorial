@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 //  ADD .env file path
-dotenv.config({path: './config.env'});
+dotenv.config({ path: './config.env' });
 
 require("./db/conn");
 const User = require('./model/userSchema');
