@@ -25,12 +25,41 @@ router.post('/register', async (req, res) => {
         const userExist = await User.findOne({ email: email })
         if (userExist) {
             return res.status(422).json({ error: "Email Already Exists.." })
-        }
-        const user = new User({ name, email, phone, work, password, cpassword });
+        }if (password != cpassword) {
+            return res.status(422).json({ error: "Password Are Not Matching.." })
+        } else {
+            const user = new User({ name, email, phone, work, password, cpassword });
+        // bcrypt hasing the password
         await user.save();
-        res.status(201).json({ message: "User Registerd Successfully" });
+        res.status(201).json({ message: "User Registerd Successfully" });  
+        }
+        
     } catch (err) {
         console.log(err);
+    }
+});
+
+// Login route
+router.post('/signin', async (req, res) => {
+    // console.log(req.body);
+    // res.json({message:"awesome"});
+
+    try {
+        const {email, password } = req.body;
+        if (!email || !password) {
+            return req.status(404).json({error:"plz Filled the data"});
+        }
+        const userLogin = await User.findOne({email: email});
+        console.log(userLogin);
+        if (!userLogin) {
+            res.status(400).json({err:"User Error"})
+        } else {
+            res.json({message:"User Signin Successfully.."}); 
+        }
+        
+    } catch (err) {
+        console.log(err);
+        
     }
 });
 
